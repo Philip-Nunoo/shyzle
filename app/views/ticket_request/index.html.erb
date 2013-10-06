@@ -1,0 +1,137 @@
+<div class="well well-small">
+	<div class="alert">
+		<b>Requested Flight</b>
+		<button class="btn btn-mini pull-right">Change / Edit</button>
+	</div>
+	<table class='table table-bordered'>
+		<tr>
+			<td><b>From</b></td>
+			<td><b>To</b></td>
+			<td><b>Corporate Name</b></td>
+			<td><b>Number of Seats (Price: GHS <%=@booking_form[:price]%>)</b></td>
+			<td><b>Total Price (GHS)</b></td>
+		</tr>
+		<tr>
+			<td><%=FromDestination.find(@booking_form[:from]).name%></td>
+			<td><%=ToDestination.find(@booking_form[:to]).name%></td>
+			<td><%=CompanyName.find(@booking_form[:CompanyName_id]).name%></td>
+			<td><%=@booking_form[:passengerCount]%></td>
+			<td><%=(@booking_form[:price]).to_f*(@booking_form[:passengerCount]).to_f%></td>
+		</tr>
+	</table>
+</div>
+<div class="flight_detail">
+	<div class="well well-small"><b>Your Booking Details</b></div>
+	<div>Please fill out the form Below to continue.</div>
+	<div>
+		<ul class="thumbnails">
+		    <li class="span4">
+			    <div class="thumbnail">		    	
+					<div>
+						<%=form_for :action=>create do |f|%>
+						<%=f.label :phone_number%>
+						<%=f.telephone_field :phone_number%>
+						<%=f.label :email%>
+						<%=f.email_field :email%>
+					</div>
+			    </div>
+		    </li>
+		    <li class="span4">
+			    <div class="thumbnail">
+					<div>
+						<div><h3>Select Date &amp; Time</h3></div>
+						<%=f.collection_select :departureDate,DepartureDate.all,:id, :departure%>
+						<select>
+							<option>Mon, 16th December, 2013</option>
+						</select><br/>
+						<select>
+							<option>Morning, 7am</option>
+						</select>
+					</div>
+			    </div>
+		    </li>
+	
+	    </ul>
+	    
+		<%=f.submit "Make Order", :class=>"btn btn-primary btn-medium make_order"%>
+		<% end%>
+	</div>
+	<div>	
+			
+			<!-- <fieldset>
+				<legend>Payment Method</legend> -->
+				<%=
+				# f.radio_button(:paymentType, :directPay)
+				%> <!-- Direct Pay -->
+				<%=
+				# f.radio_button(:paymentType, :mpowerPayment)
+				%> <!-- MpowerPayment -->
+				<%=
+				# f.radio_button(:paymentType, :mtnMobileMoney)
+				%> <!-- MTN Mobile Money -->
+				<!-- <div>
+					    <ul class="thumbnails">
+						    <li class="span2">
+							    <div class="thumbnail">
+									<img src="/assets/directpayment.gif" alt="Mtn Mobile Money"/>
+								    <h4>Call us to make payment</h4>
+								    <p></p>
+							    </div>
+						    </li>
+						    <li class="span2">
+							    <div class="thumbnail">
+									<img src="/assets/mtn_mobile_money.jpg" alt="Mtn Mobile Money"/>
+								    <h4>Pay with mtn mobile Money</h4>
+								    <p></p>
+							    </div>
+						    </li>
+						    <li class="span2">
+							    <div class="thumbnail">
+									<img src="/assets/mpower.png" alt="Mtn Mobile Money"/>
+								    <h4>Pay through</h4>
+								    <p></p>
+							    </div>
+						    </li>
+
+					    </ul>
+				</div> -->
+				<!-- <div class="payment_info">&nbsp;</div> -->
+			<!-- </fieldset> -->
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+	    paymentTypeSelected();
+	});
+	$("input:radio[name='user_request[paymentType]']").change(function() {
+	    paymentTypeSelected($(this));
+	});
+	
+	function paymentTypeSelected(argument){
+		if (argument){
+			if(argument.is(':checked')){
+		    	$(".make_order").removeAttr("disabled","disabled");
+			} else {
+		    	$(".payment_info").html("Please select a payment plan.");
+		    	$(".make_order").attr("disabled","disabled");
+				return false;
+			}
+		} else {
+		    $(".payment_info").html("Please select a payment plan.")
+		    $(".make_order").attr("disabled","disabled");
+			return false;
+		}
+		var value = argument.attr("id");
+		console.log(value);
+	    if (value=="user_request_paymentType_mpowerpayment"){
+	    	$(".payment_info").html("Make Payment using your mpower account.");
+	    } else if(value =="user_request_paymentType_mtnmobilemoney"){
+	    	$(".payment_info").html("Make Payment using your mtn mobile money wallet.");
+	    } else if(value =="user_request_paymentType_directpay"){
+	    	$(".payment_info").html("Call us to make payment directly");
+	    } else { 
+	    	$(".payment_info").html("Please select a payment plan.")
+		    $(".make_order").attr("disabled","disabled");
+	    }
+	}
+</script>

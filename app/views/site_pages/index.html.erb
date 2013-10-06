@@ -1,0 +1,91 @@
+<% javascript 'dynamic_companies'%>
+<% javascript 'destination_prices'%>
+
+<div class="welcome auto">
+	<div>
+		<h1>Welcome to powrTrav</h1>
+	</div>
+	<div class="about">
+		<p>Buy your travel tickets online and make payment through your mobile device the easy way.</p>
+		<p>With PowrTrav.</p>
+		<p>~Travelling at your convenience</p>
+	</div>
+</div>
+<div class="user_form">
+	<%=form_for :booking,:url=>{:controller=>"ticket_request"} do |f|%>
+	<div class="alert alert-info">
+		<b>Book My Bus Ticket</b>
+		<span class="pull-right">
+			<p><a href="#myModal" class="all_destination label label-info" data-toggle="modal" data-toggle="tooltip" title="first tooltip">View prices.</a></p>
+		</span>
+	</div>
+	<div class="well well-small">
+		<table>
+			<tr>
+				<td><b><%=f.label :from%></b></td>
+				<td><b><%=f.label :to%></b></td>
+				<td><b><%=f.label :departure_date%></b></td>
+			</tr>
+			<tr>
+				<td>
+					<%= f.collection_select :from, FromDestination.all, :id, :name, :prompt=>'--'%>
+				</td>
+				<td>
+					<%= f.collection_select :to, ToDestination.all, :id, :name, :prompt=>'--'%>
+				</td>
+				<td>
+					<%=f.date_field :departure_date%>
+				</td>
+			</tr>
+			<tr>
+				<td><b>Passengers</b></td>
+				<td><b>Route Type</b></td>
+				<td><b>Transport Type</b></td>
+			</tr>
+			<tr>
+				<td>
+					<%= f.select(:passengerCount, [ [1, 1],[2, 2],[3, 3]])%>
+				</td>
+				<td>
+					<%=f.collection_select :TransportMode_id, TransportMode.all , :id, :name%>
+				</td>
+				<td>
+					<%=f.collection_select :CompanyName_id, CompanyName.all , :id, :name, :prompt=>'--'%>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div>
+						<button class="label label-info show_charge" onclick="destination_to_from_company_price(); return false;">Show Charge: </button>
+					</div>
+					<div>
+						<%=f.hidden_field :price%>
+						<span id="price"></span>
+					</div>
+				</td>
+				<td>
+					<%=f.submit "Make Booking", {:class=>"btn btn-primary btn-small", :id=>"booking_makeBooking"} %>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<%end%>
+</div>
+	<!-- modal object for items -->
+	    <!-- Button to trigger modal -->
+     
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+    </div>
+    <div class="modal-body">
+    <p>One fine body…</p>
+    </div>
+    <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Continue</button>
+    </div>
+    </div>
+

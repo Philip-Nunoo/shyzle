@@ -1,0 +1,64 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require_self
+ *= require_tree .
+*/
+*= require twitter/bootstrap
+
+.menu{
+	padding: 30px;
+}
+
+.navigation{
+	margin: 15px 0;
+}
+
+.navigation ul{
+	float: right;
+}
+.navigation ul li{
+  display: inline;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.navigation ul li a {
+	padding: 12px 10px;
+	padding-top: 20px;
+	/*background-color: white;*/
+}
+
+.item {}
+
+.auto {
+	margin: auto;
+}
+
+.cont_container{
+	max-width: 800px;
+	margin: 12px auto;
+    padding: 8px;
+}
+.welcome{
+}
+
+.user_form, .about, .flight_detail{    
+    margin: 10px auto;
+    box-shadow: 0px 0px 3px rgb(180, 180, 180) !important;
+	padding: 5px;
+    background-color: rgb(253, 253, 253);
+}
+
+.about {	
+	font-size: 13px;
+    max-width: 1240px !important;
+    text-transform: capitalize;
+}
+
+/*index page stuff*/
+
+.user_form{
+	height:
+}

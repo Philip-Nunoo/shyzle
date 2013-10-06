@@ -1,0 +1,36 @@
+var companies = new Array();
+<% for company in @companies %>
+	companies.push(new Array(<%= company.TransportMode_id %>, '<%=h company.name %>', <%= company.id %>));
+<% end %>
+
+function transportModeSelected() {
+	TransportModeValue = $('#booking_TransportMode_id').val();
+	CompanyTag = $('#person_CompanyName_id');
+	
+	CompanyTag.length = 1;
+	auxArr = [];
+	
+	if(TransportModeValue){
+		$('#booking_CompanyName_id').empty(1);
+		auxArr[0] = "<option>---</option>";
+
+		$.each( companies, function( key, value ) {
+			if (value[0] == TransportModeValue) {
+				auxArr[key+1] = "<option value='" + value[2] + "'>" + value[1] + "</option>";
+				CompanyTag.length = CompanyTag.length + 1;
+			}
+		});
+	}
+	$('#booking_CompanyName_id').append(auxArr.join(''));
+	
+	if (CompanyTag.length == 1){
+	} else {
+		$('#company_name').show();
+		
+	}
+}
+
+$(document).ready(function() {
+  transportModeSelected();
+  $("#booking_TransportMode_id").change(function(){transportModeSelected()} );
+});

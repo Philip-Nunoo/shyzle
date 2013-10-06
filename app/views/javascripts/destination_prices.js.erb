@@ -1,0 +1,56 @@
+var destinations = new Array();
+var destinationsQuery = new Array();
+
+<%for destination in @destinations%>
+	destinations.push(new Array(<%= destination.id%>,'<%= destination.CompanyName.name%>','<%= destination.FromDestination.name%>','<%= destination.ToDestination.name%>','<%= destination.price %>'));
+	destinationsQuery.push(new Array(<%= destination.id%>,<%= destination.CompanyName_id%>,<%= destination.FromDestination_id%>,<%= destination.ToDestination_id%>,'<%= destination.price %>'));
+<%end%>
+
+function allDestinations(){
+	auxArr = "";
+	
+	$.each( destinations, function( key, value ) {
+			auxArr = auxArr +
+				"<tr><td>"+value[1]+"</td><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[4]+"</td></tr>";
+			
+			CompanyTag.length = CompanyTag.length + 1;
+	});
+	auxArr = "<table class='table table-bordered'><tr><th>Company Name</th><th>From</th><th>To</th><th>Price GhC</th></tr>"+auxArr+"</table>";
+	$('#myModalLabel').html("Transport Prices");
+	$("div.modal-body").html(auxArr);
+}
+
+function destination_to_from_company_price(){
+	price = "";
+	
+	companyNameValue = $("#booking_CompanyName_id").val();
+	fromDestinationValue = $("#booking_from").val();
+	toDestinationValue = $("#booking_to").val();
+	passengerCountValue = $("#booking_passwngerCount").val();
+		
+	$.each( destinationsQuery, function( key, value){
+		if(value[1] == companyNameValue &&
+			value[2] == fromDestinationValue && 
+			value[3] == toDestinationValue){
+				price = value[4];
+		}
+	});
+	
+	
+	console.log("Price: "+price);
+	if(price !=""){
+		$("#price").html(price);
+		$("#booking_price").attr('value', price);
+		$("#booking_makeBooking").removeAttr('disabled');
+	} else {
+		$("#price").html("No Booking Charges Available")
+		$("#destinationPrice").removeAttr('value', price);
+		
+		$("#booking_makeBooking").attr('disabled', 'disabled');
+	}
+}
+
+$(document).ready(function() {
+	allDestinations();
+	destination_to_from_company_price();
+});

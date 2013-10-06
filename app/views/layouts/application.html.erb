@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PowrTrav</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield(:head) %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="top_color">
+	<div class="wide_cont">	
+		<div class="container">
+			<div class="row">
+				<div class="span3">
+					<div class="title menu">
+						<h3><a href=""></a></h3>
+					</div>
+				</div>
+				<div class="span9">
+					<div class="navigation">
+						<ul class="menu">
+							<li class="item"><a href="">Home</a></li>
+							<li class="item"><a href="">About</a></li>
+							<li class="item"><a href="">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<div class="cont_container">
+			  <%= yield %>
+			</div>
+		</div>	
+	</div>
+</body>
+</html>
